@@ -1,10 +1,10 @@
 """""""""
 " Plugins
 
-call plug#begin()
+call plug#begin('$HOME/.vim/plugged')
 
 Plug 'vim-syntastic/syntastic'
-Plug 'raichoo/haskell-vim'
+Plug 'neovimhaskell/haskell-vim'
 
 " Colorschemes
 Plug 'ErichDonGubler/vim-sublime-monokai'
@@ -22,7 +22,7 @@ set shiftwidth=4
 set number
 set splitbelow
 set splitright
-set list!
+set list
 set showbreak=↪\
 set listchars=tab:\|\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 
