@@ -5,6 +5,8 @@ call plug#begin('$HOME/.vim/plugged')
 
 Plug 'vim-syntastic/syntastic'
 Plug 'neovimhaskell/haskell-vim'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+" YCM might need more steps to install. Check out the github.
 
 " Colorschemes
 Plug 'ErichDonGubler/vim-sublime-monokai'
@@ -62,6 +64,10 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
+let g:syntastic_go_checkers = ['go']
+
+" go.vim
+au BufRead,BufNewFile *.go set filetype=go
 
 " haskell-vim
 let g:haskell_enable_quantification = 1   " highlighting of `forall`
@@ -72,4 +78,9 @@ let g:haskell_enable_typeroles = 1        " -||- of type roles
 let g:haskell_enable_static_pointers = 1  " -||- of `static`
 let g:haskell_backpack = 1                " -||- of backpack keywords
 let g:haskell_indent_disable = 1          " disable indentations
+
+" YCM
+let g:ycm_auto_trigger = 0 " Set to 0 to only use with ctrl+space.
+let g:ycm_server_python_interpreter = '/usr/bin/python'
+let g:ycm_global_ycm_extra_conf = '~/.vim/global_extra_conf.py'
 
