@@ -9,6 +9,7 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 " YCM might need more steps to install. Check out the github.
 
 " Colorschemes
+Plug 'treycucco/vim-monotonic'
 Plug 'ErichDonGubler/vim-sublime-monokai'
 
 call plug#end()
@@ -26,45 +27,70 @@ set splitbelow
 set splitright
 set list
 set showbreak=↪\
-set listchars=tab:\|\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+"set listchars=tab:\|\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+set listchars=tab:\ \ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+
+""""""""""
+" NETRW
+let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_browse_split = 0
+let g:netrw_altv=0
+nnoremap <C-n> :tabe<cr>:Exp<cr>
 
 """""""""""""
 " Colorscheme
-set termguicolors
-color sublimemonokai
+set notermguicolors
+color monotonic
 let g:sublimemonokai_term_italic = 1
+
+""""""""""""
+" Statusline
+set laststatus =2
+set statusline =
+set statusline+=%L
+set statusline+=%=
+set statusline+=%F
+set statusline+=\ \ \ \ Column\:%3c
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
 
 """"""""""
 " Keybinds
 
 let mapleader=","
 
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ev :tabe $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <F2> :lopen<cr>
 nnoremap <F3> :lclose<cr>
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-nnoremap <S-J> 20j
-nnoremap <S-K> 20k
-nnoremap <S-L> 10l
-nnoremap <S-H> 10h
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-l> :tabn<cr>
+nnoremap <C-h> :tabp<cr>
+nnoremap J 10j
+nnoremap K 10k
+nnoremap L 10l
+nnoremap H 10h
+nnoremap <F7> :tabp<cr>
+nnoremap <F8> :tabn<cr>
+nnoremap <leader>ef :tabe 
 
 """""""""""""""""
 " Plugin settings
 
 " Syntastic
-nnoremap <F1> :SyntasticCheck<cr>
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+nnoremap <leader>ch :SyntasticCheck<cr>
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_w = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_go_checkers = ['go']
+"let g:syntastic_haskell_checkers = []
 
 " go.vim
 au BufRead,BufNewFile *.go set filetype=go
