@@ -10,6 +10,7 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 
 " Colorschemes
 Plug 'treycucco/vim-monotonic'
+Plug 'vim-scripts/Ambient-Color-Scheme'
 Plug 'ErichDonGubler/vim-sublime-monokai'
 
 call plug#end()
@@ -27,8 +28,9 @@ set splitbelow
 set splitright
 set list
 set showbreak=↪\
+set listchars=tab:\|\ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 "set listchars=tab:\|\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
-set listchars=tab:\ \ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+"set listchars=tab:\ \ ,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 
 """"""""""
 " NETRW
@@ -36,12 +38,12 @@ let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_browse_split = 0
 let g:netrw_altv=0
-nnoremap <C-n> :tabe<cr>:Exp<cr>
+nnoremap <C-o> :tabe<cr>:Exp<cr>
 
 """""""""""""
 " Colorscheme
-set notermguicolors
-color monotonic
+set termguicolors
+color ambient
 let g:sublimemonokai_term_italic = 1
 
 """"""""""""
@@ -78,6 +80,23 @@ nnoremap H 10h
 nnoremap <F7> :tabp<cr>
 nnoremap <F8> :tabn<cr>
 nnoremap <leader>ef :tabe 
+nnoremap <C-n> :tabe 
+
+""""""""""""""
+" Autocommands
+
+" Save python with spaces insead of tabs
+augroup python
+	au!
+	au BufWritePre,FileWritePre *.py silent Tab2Space
+	au BufWritePost,FileWritePost *.py silent Space2Tab
+augroup END
+
+"""""""""
+" Scripts
+
+:command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" ", len(submatch(0))*' . &ts . ')'
+:command! -range=% -nargs=0 Space2Tab execute '<line1>,<line2>s#^\( \{'.&ts.'\}\)\+#\=repeat("\t", len(submatch(0))/' . &ts . ')'
 
 """""""""""""""""
 " Plugin settings
@@ -93,7 +112,10 @@ let g:syntastic_go_checkers = ['go']
 "let g:syntastic_haskell_checkers = []
 
 " go.vim
-au BufRead,BufNewFile *.go set filetype=go
+augroup go
+	au!
+	au BufRead,BufNewFile *.go set filetype=go
+augroup END
 
 " haskell-vim
 let g:haskell_enable_quantification = 1   " highlighting of `forall`
