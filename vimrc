@@ -22,6 +22,7 @@ set autoindent
 set smartindent
 set noexpandtab
 set tabstop=4
+set softtabstop=4
 set shiftwidth=4
 set number
 set splitbelow
@@ -88,6 +89,7 @@ nnoremap <C-n> :tabe
 " Save python with spaces insead of tabs
 augroup python
 	au!
+	au BufReadPost,FileReadPost *.py set ts=4|silent Space2Tab
 	au BufWritePre,FileWritePre *.py silent Tab2Space
 	au BufWritePost,FileWritePost *.py silent Space2Tab
 augroup END
@@ -109,6 +111,7 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_w = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_go_checkers = ['go']
+let g:syntastic_python_checkers = []
 "let g:syntastic_haskell_checkers = []
 
 " go.vim
