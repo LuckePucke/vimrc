@@ -25,6 +25,7 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set number
+set relativenumber
 set splitbelow
 set splitright
 set list
@@ -89,16 +90,16 @@ nnoremap <C-n> :tabe
 " Save python with spaces insead of tabs
 augroup python
 	au!
-	au BufReadPost,FileReadPost *.py set ts=4|silent Space2Tab
-	au BufWritePre,FileWritePre *.py silent Tab2Space
-	au BufWritePost,FileWritePost *.py silent Space2Tab
+	au BufReadPost,FileReadPost *.py set ts=4|set noet|retab!
+	au BufWritePre,FileWritePre *.py set ts=4|set et|retab!
+	au BufWritePost,FileWritePost *.py set ts=4|set noet|retab!
 augroup END
 
 """""""""
 " Scripts
 
-:command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" ", len(submatch(0))*' . &ts . ')'
-:command! -range=% -nargs=0 Space2Tab execute '<line1>,<line2>s#^\( \{'.&ts.'\}\)\+#\=repeat("\t", len(submatch(0))/' . &ts . ')'
+" :command! -range=% -nargs=0 Tab2Space execute '<line1>,<line2>s#^\t\+#\=repeat(" ", len(submatch(0))*' . &ts . ')'
+" :command! -range=% -nargs=0 Space2Tab execute '<line1>,<line2>s#^\( \{'.&ts.'\}\)\+#\=repeat("\t", len(submatch(0))/' . &ts . ')'
 
 """""""""""""""""
 " Plugin settings
